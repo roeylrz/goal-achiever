@@ -1,8 +1,8 @@
 import express from 'express';
 import { body, param } from 'express-validator';
 import { validateRequest, requireAuth } from '../middlewares';
-import { createStep } from '../controllers/goalStepsController';
-import { isGoalIdValid } from './customValidator/goalValidator';
+import { createStep, updateStep } from '../controllers/goalStepsController';
+import { isGoalIdValid, isStepIdValid } from './customValidator/goalValidator';
 
 const router = express.Router();
 
@@ -15,6 +15,17 @@ router.put(
   ],
   validateRequest,
   createStep
+);
+
+router.patch(
+  '/update/:stepid',
+  requireAuth,
+  [
+    body('Name').not().isEmpty().withMessage('Name must be provided'),
+    param('stepid').custom(isStepIdValid)
+  ],
+  validateRequest,
+  updateStep
 );
 
 export default router;

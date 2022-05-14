@@ -6,4 +6,10 @@ export const isGoalIdValid = async (goalId) => {
   }
 };
 
+export const isStepIdValid = async (goalId) => {
+  if (!isValidMongooseObject(goalId)) {
+    throw new Error('Step id is invalid');
+  }
+};
+
 const isValidMongooseObject = (id) => mongoose.Types.ObjectId.isValid(id);
