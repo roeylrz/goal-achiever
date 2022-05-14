@@ -101,3 +101,19 @@ export const updateGoal = async (req, res, next) => {
   await existingGoal.save();
   res.status(200).send({ existingGoal });
 };
+
+export const completeGoal = async (req, res, next) => {
+  const goalid = req.params.goalid;
+  const updateResult = await Goal.updateOne(
+    { _id: goalid },
+    {
+      $set: {
+        'Steps.$[el].Completed': true
+      }
+    },
+    {
+      arrayFilters: [{ 'el.Completed': false }]
+    }
+  );
+  res.status(200).send({ updateResult });
+};

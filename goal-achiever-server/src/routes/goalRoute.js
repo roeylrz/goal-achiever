@@ -5,7 +5,8 @@ import {
   getGoalById,
   getGoalsByOwner,
   createGoal,
-  updateGoal
+  updateGoal,
+  completeGoal
 } from '../controllers/goalController';
 import { isGoalIdValid } from './customValidator/goalValidator';
 
@@ -42,6 +43,14 @@ router.patch(
   ],
   validateRequest,
   updateGoal
+);
+
+router.patch(
+  '/setcomplete/:goalid',
+  requireAuth,
+  [param('goalid').custom(isGoalIdValid)],
+  validateRequest,
+  completeGoal
 );
 
 export default router;
