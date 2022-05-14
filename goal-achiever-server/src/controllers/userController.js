@@ -35,7 +35,42 @@ export const signup = async (req, res, next) => {
   res.status(201).send({ ...payload, token });
 };
 
-export const login = async (req, res, next) => {};
+export const login = async (req, res, next) => {
+  let existingUser;
+  try {
+    const { UserName, Password } = req.body;
+    try {
+      existingUser = await User.findOne({ UserName });
+    } catch {
+      const error = new HttpError(500, 'Login fialed, please try again later');
+      return next(error);
+    }
+    if (!existingUser) {
+      const error = new HttpError(401, 'Invalid credentials');
+      return next(error);
+    }
+    const isValidPassword = await bcryptjs.compare(
+      Password,
+      existingUser.Password
+    );
+    if (!isValidPassword) {
+      const error = new HttpError(401, 'Invalid credentials');
+      return next(error);
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+  let token;
+  const payload = getPlayloadFromUser(existingUser);
+  try {
+    token = createWebToket(payload);
+  } catch {
+    const error = new HttpError(500, 'Signup field, try again later');
+    return next(error);
+  }
+  res.status(200).send({ ...payload, token });
+};
+
 export const logout = async (req, res, next) => {};
 
 const getPlayloadFromUser = (user) => {

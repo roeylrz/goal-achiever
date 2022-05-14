@@ -16,4 +16,14 @@ router.post(
   signup
 );
 
+router.post(
+  '/login',
+  [
+    body('UserName').not().isEmpty().withMessage('UserName must be provided'),
+    body('Password').not().isEmpty().withMessage('Password must be provided')
+  ],
+  validateRequest,
+  login
+);
+
 export default router;
