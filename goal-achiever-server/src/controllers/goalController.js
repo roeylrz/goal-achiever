@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Goal } from '../models';
+import { HttpError } from '../shared/errors';
 
 export const getGoalById = async (req, res) => {
   const goalid = req.params.goalid;
@@ -49,4 +50,24 @@ export const getGoalsByOwner = async (req, res) => {
   ]);
 
   res.send({ goals });
+};
+
+export const createGoal = async (req, res, next) => {
+  const ownerId = req.currentUser.userId;
+  const { Name, Description, DueDate, Steps } = req.body;
+
+  const existingGoal = await Goal.findOne({ Owner: ownerId, Name });
+  if (existingGoal) {
+    const error = new HttpError(422, 'Goal name already exists');
+    return next(error);
+  }
+  const createdGoal = new Goal({
+    Name,
+    Description,
+    DueDate,
+    Steps,
+    Owner: ownerId
+  });
+  await createdGoal.save();
+  res.status(201).send({ createdGoal });
 };
