@@ -4,7 +4,8 @@ import { validateRequest, requireAuth } from '../middlewares';
 import {
   getGoalById,
   getGoalsByOwner,
-  createGoal
+  createGoal,
+  updateGoal
 } from '../controllers/goalController';
 import { isGoalIdValid } from './customValidator/goalValidator';
 
@@ -29,6 +30,18 @@ router.post(
   ],
   validateRequest,
   createGoal
+);
+
+router.patch(
+  '/update/:goalid',
+  requireAuth,
+  [
+    body('Name').not().isEmpty().withMessage('Name must be provided'),
+    body('Steps').isArray().withMessage('Steps is invalid'),
+    param('goalid').custom(isGoalIdValid)
+  ],
+  validateRequest,
+  updateGoal
 );
 
 export default router;

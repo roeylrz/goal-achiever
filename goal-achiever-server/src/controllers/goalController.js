@@ -71,3 +71,33 @@ export const createGoal = async (req, res, next) => {
   await createdGoal.save();
   res.status(201).send({ createdGoal });
 };
+
+export const updateGoal = async (req, res, next) => {
+  const ownerId = req.currentUser.userId;
+  const goalid = req.params.goalid;
+  const { Name, Description, DueDate, Steps } = req.body;
+
+  const existingGoal = await Goal.findById(goalid);
+  if (!existingGoal) {
+    const error = new HttpError(404, 'Could not find goal for the provided id');
+    return next(error);
+  }
+  if (Name !== existingGoal.Name) {
+    const existingGoalWithSameName = await Goal.findOne({
+      Owner: ownerId,
+      Name
+    });
+    if (existingGoalWithSameName) {
+      const error = new HttpError(422, 'Goal name already exists');
+      return next(error);
+    }
+  }
+  existingGoal.set({
+    Name,
+    Description,
+    DueDate,
+    Steps
+  });
+  await existingGoal.save();
+  res.status(200).send({ existingGoal });
+};
