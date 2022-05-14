@@ -1,10 +1,16 @@
 import express from 'express';
 import { body, param } from 'express-validator';
 import { validateRequest, requireAuth } from '../middlewares';
-import { createStep, updateStep } from '../controllers/goalStepsController';
+import {
+  createStep,
+  updateStep,
+  getAllNextSteps
+} from '../controllers/goalStepsController';
 import { isGoalIdValid, isStepIdValid } from './customValidator/goalValidator';
 
 const router = express.Router();
+
+router.get('/nextsteps', requireAuth, getAllNextSteps);
 
 router.put(
   '/create',

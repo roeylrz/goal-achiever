@@ -25,3 +25,15 @@ export const updateStep = async (req, res) => {
   );
   res.status(200).send({ updateResult });
 };
+
+export const getAllNextSteps = async (req, res) => {
+  const ownerId = req.currentUser.userId;
+  const updateResult = await Goal.find(
+    {
+      Owner: ownerId,
+      'Steps.Completed': false
+    },
+    { Name: 1, Description: 1, DueDate: 1, 'Steps.$': 1 }
+  );
+  res.status(200).send({ updateResult });
+};
