@@ -1,9 +1,11 @@
+import MainNavigation from './shared/components/Navigation/MainNavigation';
 import classes from './App.module.scss';
 
 const App = () => {
   return (
     <div className={classes.App}>
-      <main>Created react app !</main>
+      <MainNavigation />
+      <main className={classes.App_main}>Created react app !</main>
     </div>
   );
 };

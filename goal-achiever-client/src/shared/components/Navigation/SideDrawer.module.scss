@@ -1,0 +1,9 @@
+@import 'stylesheets/main.scss';
+.SideDrawer {
+  position: fixed;
+  top: $main-header-hight;
+  height: calc(100vh - #{$main-header-hight});
+  width: $drawer-width;
+  background: $color-secondary;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.26);
+}

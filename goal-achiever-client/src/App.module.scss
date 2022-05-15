@@ -1,4 +1,9 @@
 @import 'stylesheets/main.scss';
 .App {
   color: $color-main;
+  &_main {
+    padding: calc(#{$standart-spacing} + #{$main-header-hight})
+      $standart-spacing $standart-spacing
+      calc(#{$standart-spacing} + #{$drawer-width});
+  }
 }
