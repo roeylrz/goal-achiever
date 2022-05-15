@@ -17,4 +17,8 @@
     background: $color-background-main;
     color: $color-main;
   }
+  &:disabled {
+    background: lightgrey;
+    border-color: lightgrey;
+  }
 }

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import classes from './Button.module.scss';
 
 const Button = ({
+  disabled,
   to = null,
-  exact = true,
   main = false,
   onClick = null,
   children
@@ -20,13 +20,13 @@ const Button = ({
   );
   if (to) {
     return (
-      <Link to={to} exact={exact} className={className}>
+      <Link to={to} exact className={className}>
         {children}
       </Link>
     );
   }
   return (
-    <button className={className} onClick={onButtonClick}>
+    <button className={className} onClick={onButtonClick} disabled={disabled}>
       {children}
     </button>
   );
