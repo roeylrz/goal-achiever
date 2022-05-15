@@ -1,0 +1,36 @@
+@import 'stylesheets/main.scss';
+
+.Input {
+  margin: 1rem 0;
+  & label,
+  & input,
+  & textarea {
+    display: block;
+  }
+  & label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  & input,
+  & textarea {
+    width: 100%;
+    font: inherit;
+    border: 1px solid $color-background-main;
+    padding: 0.15rem 0.25rem;
+    &:focus {
+      outline: none;
+      border-color: $color-main;
+    }
+  }
+  &_invalid {
+    label,
+    p {
+      color: $color-danger;
+    }
+    input,
+    textarea {
+      border-color: $color-danger;
+      background: rgba($color-danger, 0.1);
+    }
+  }
+}
