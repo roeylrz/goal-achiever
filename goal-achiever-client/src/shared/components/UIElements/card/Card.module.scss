@@ -17,9 +17,13 @@
   &_header {
     position: absolute;
     top: 0;
+    left: 0;
+    margin-left: 16px;
+    width: calc(100% - 32px);
+    border-bottom: 1px solid $color-background-main;
   }
   &_main {
-    margin: 2rem 0 1rem 0;
+    margin: 3rem 0 1rem 0;
   }
   &_footer {
     padding: 12px;
