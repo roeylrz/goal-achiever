@@ -1,0 +1,11 @@
+.Footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  & Button {
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}

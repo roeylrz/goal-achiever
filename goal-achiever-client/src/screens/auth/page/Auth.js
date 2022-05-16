@@ -1,6 +1,7 @@
-import React from 'react';
-import { useForm } from '../../../shared/hooks/form-hook';
-import Button from '../../../shared/components/formElements/Button';
+import React, { useMemo } from 'react';
+import useHome from '../hooks/auth-hook';
+import ErrorModal from '../../../shared/components/UIElements/modal/ErrorModal';
+import Footer from '../compoents/Footer';
 import Card from '../../../shared/components/UIElements/card/Card';
 import Input from '../../../shared/components/formElements/Input';
 import {
@@ -10,27 +11,42 @@ import {
 import classes from './Auth.module.scss';
 
 const Auth = () => {
-  const [formState, inputHandler] = useForm(
-    {
-      username: {
-        value: '',
-        isValid: false
-      },
-      password: {
-        value: '',
-        isValid: false
-      }
-    },
-    false
-  );
+  const {
+    error,
+    clearError,
+    formState,
+    inputHandler,
+    inLoginMode,
+    switchLoginMode,
+    authSubmitHandler
+  } = useHome();
 
-  const authSubmitHandler = (event) => {
-    event.preventDefault();
-  };
-
-  return (
-    <form className={classes.Auth} onSubmit={authSubmitHandler}>
-      <Card headerLarge={'Please Login'}>
+  const loginRequest = `Please ${inLoginMode ? 'login' : 'signup'}`;
+  const content = useMemo(() => {
+    return (
+      <React.Fragment>
+        {!inLoginMode && (
+          <>
+            <Input
+              element="input"
+              id="firstname"
+              type="text"
+              label="First Name"
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText="Please enter first name."
+              onInput={inputHandler}
+            />
+            <Input
+              element="input"
+              id="lastname"
+              type="text"
+              label="Last Name"
+              errorText="Please enter last name."
+              initialValid={true}
+              onInput={inputHandler}
+            />
+          </>
+        )}
         <Input
           id="username"
           element="input"
@@ -50,9 +66,24 @@ const Auth = () => {
           errorText="Please enter a valid title"
           onInput={inputHandler}
         />
-        <Button type="submit" disabled={!formState.isValid}>
-          LOGIN
-        </Button>
+      </React.Fragment>
+    );
+  }, [inputHandler, inLoginMode]);
+
+  return (
+    <form className={classes.Auth} onSubmit={authSubmitHandler}>
+      <ErrorModal error={error} onClear={clearError} />
+      <Card
+        headerLarge={loginRequest}
+        footer={
+          <Footer
+            isValid={formState.isValid}
+            inLoginMode={inLoginMode}
+            switchLoginMode={switchLoginMode}
+          />
+        }
+      >
+        {content}
       </Card>
     </form>
   );
