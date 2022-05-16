@@ -33,8 +33,8 @@ const Input = ({
   element,
   initialValid,
   initialValue,
-  validators,
   onInput,
+  validators = [],
   rows = 3
 }) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
