@@ -1,0 +1,12 @@
+@import 'stylesheets/main.scss';
+
+.TitleValueDisplay {
+  text-align: start;
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+  &_value {
+    font-weight: bold;
+    margin: 0 16px;
+  }
+}
