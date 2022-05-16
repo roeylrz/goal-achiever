@@ -6,7 +6,7 @@ import MainNavigation from './shared/components/Navigation/MainNavigation';
 import Home from './screens/home/page/Home';
 import Auth from './screens/auth/page/Auth';
 import GoalList from './screens/goalList/page/GoalList';
-import GoalDetails from './screens/goalDetails/GoalDetails';
+import GoalDetails from './screens/goalDetails/page/GoalDetails';
 import * as routesConsts from './shared/httpRequests/routes';
 import classes from './App.module.scss';
 

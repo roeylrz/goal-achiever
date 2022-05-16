@@ -40,8 +40,7 @@ const GoalDetails = () => {
           element="input"
           type="date"
           label="Due Date"
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid title"
+          initialValid={true}
           onInput={inputHandler}
         />
         <Input

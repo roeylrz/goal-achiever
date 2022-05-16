@@ -3,4 +3,8 @@
 .CardList {
   display: flex;
   flex-wrap: wrap;
+  & > div {
+    min-width: 25rem;
+    max-width: 30rem;
+  }
 }
