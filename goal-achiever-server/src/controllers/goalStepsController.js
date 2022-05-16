@@ -37,3 +37,16 @@ export const getAllNextSteps = async (req, res) => {
   );
   res.status(200).send({ updateResult });
 };
+
+export const completeStep = async (req, res) => {
+  const stepid = req.params.stepid;
+  const updateResult = await Goal.updateOne(
+    { 'Steps._id': stepid },
+    {
+      $set: {
+        'Steps.$.Completed': true
+      }
+    }
+  );
+  res.status(200).send({ updateResult });
+};

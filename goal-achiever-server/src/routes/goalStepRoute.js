@@ -4,7 +4,8 @@ import { validateRequest, requireAuth } from '../middlewares';
 import {
   createStep,
   updateStep,
-  getAllNextSteps
+  getAllNextSteps,
+  completeStep
 } from '../controllers/goalStepsController';
 import { isGoalIdValid, isStepIdValid } from './customValidator/goalValidator';
 
@@ -33,5 +34,7 @@ router.patch(
   validateRequest,
   updateStep
 );
+
+router.patch('/complete/:stepid', requireAuth, completeStep);
 
 export default router;
