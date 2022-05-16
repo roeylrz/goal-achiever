@@ -7,6 +7,7 @@ const Button = ({
   to = null,
   main = false,
   onClick = null,
+  type = 'button',
   children
 }) => {
   const className = `${classes.Button} ${main && classes.Button_main}`;
@@ -26,7 +27,12 @@ const Button = ({
     );
   }
   return (
-    <button className={className} onClick={onButtonClick} disabled={disabled}>
+    <button
+      type={type}
+      className={className}
+      onClick={onButtonClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
