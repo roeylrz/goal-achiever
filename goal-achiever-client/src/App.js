@@ -6,6 +6,7 @@ import MainNavigation from './shared/components/Navigation/MainNavigation';
 import Home from './screens/home/page/Home';
 import Auth from './screens/auth/page/Auth';
 import GoalList from './screens/goalList/page/GoalList';
+import GoalDetails from './screens/goalDetails/GoalDetails';
 import * as routesConsts from './shared/httpRequests/routes';
 import classes from './App.module.scss';
 
@@ -18,6 +19,7 @@ const App = () => {
         <Routes>
           <Route path={routesConsts.HOME} element={<Home />} exact />
           <Route path={routesConsts.GOAL_LIST} element={<GoalList />} exact />
+          <Route path={routesConsts.GOAL_DETAILS} element={<GoalDetails />} />
           <Route
             path="*"
             element={<Navigate replace to={routesConsts.HOME} />}

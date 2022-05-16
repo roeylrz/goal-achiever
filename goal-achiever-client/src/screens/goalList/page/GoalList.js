@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react';
 import useGoalList from '../hooks/goal-list-hook';
+import * as routesConsts from '../../../shared/httpRequests/routes';
 import GoalContent from '../components/GoalContent';
 import CardList from '../../../shared/components/UIElements/card/CardList';
+import Button from '../../../shared/components/formElements/Button';
 import classes from './GoalList.module.scss';
 
 const GoalList = () => {
@@ -14,7 +16,8 @@ const GoalList = () => {
         return {
           key: goal._id,
           headerMeduim: goal.Name,
-          content: <GoalContent goal={goal} />
+          content: <GoalContent goal={goal} />,
+          footer: <Button to={routesConsts.GOAL_DETAILS}>EDIT</Button>
         };
       }),
     [goals]
