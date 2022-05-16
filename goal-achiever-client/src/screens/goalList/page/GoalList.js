@@ -19,7 +19,7 @@ const GoalList = () => {
           headerMeduim: goal.Name,
           content: <GoalContent goal={goal} />,
           footer: (
-            <Button to={`${routesConsts.GOAL_DETAILS}goal._id`}>EDIT</Button>
+            <Button to={`${routesConsts.GOAL_DETAILS}${goal._id}`}>EDIT</Button>
           )
         };
       }),
