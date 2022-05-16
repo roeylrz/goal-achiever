@@ -1,0 +1,10 @@
+@import 'stylesheets/main.scss';
+
+.GoalDetails {
+  width: 100%;
+  text-align: center;
+  &_card {
+    display: inline-block;
+    width: 50rem;
+  }
+}
