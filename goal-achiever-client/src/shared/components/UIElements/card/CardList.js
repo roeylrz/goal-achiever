@@ -6,7 +6,11 @@ const CardList = ({ cardsData = [] }) => {
   const cards = cardsData.map((card) => {
     if (!card) return null;
     return (
-      <Card key={card.key} headerMeduim={card.headerMeduim}>
+      <Card
+        key={card.key}
+        headerMeduim={card.headerMeduim}
+        footer={card.footer}
+      >
         {card.content}
       </Card>
     );
