@@ -2,7 +2,7 @@ import React from 'react';
 import Devider from '../deviders/Devider';
 import classes from './Card.module.scss';
 
-const Card = ({ headerLarge, headerMeduim, children }) => {
+const Card = ({ headerLarge, headerMeduim, footer, children }) => {
   return (
     <div className={classes.Card}>
       {headerLarge && <h1 className={classes.Card_header}>{headerLarge}</h1>}
@@ -11,6 +11,7 @@ const Card = ({ headerLarge, headerMeduim, children }) => {
         <Devider isHorizontal={true} />
         {children}
       </div>
+      {footer && <div className={classes.Card_footer}>{footer}</div>}
     </div>
   );
 };

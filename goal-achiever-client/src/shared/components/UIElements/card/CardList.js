@@ -2,13 +2,12 @@ import React from 'react';
 import Card from './Card';
 import classes from './CardList.module.scss';
 
-const CardList = ({ cardsArrayData }) => {
-  const cards = cardsArrayData.map((card) => {
+const CardList = ({ cardsData = [] }) => {
+  const cards = cardsData.map((card) => {
     if (!card) return null;
-    const { key, header, footer, content } = card;
     return (
-      <Card key={key} header={header} footer={footer}>
-        {content}
+      <Card key={card.key} headerMeduim={card.headerMeduim}>
+        {card.content}
       </Card>
     );
   });
