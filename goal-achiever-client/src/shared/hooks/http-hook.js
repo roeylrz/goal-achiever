@@ -1,18 +1,30 @@
 import { useState, useCallback } from 'react';
-import axios from '../../config/axios-matrix-cabinet';
+import axios from '../../config/axios';
 
 const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
   const sendRequest = useCallback(
-    async (url, method = 'GET', data = null, headers = {}) => {
+    async (url, method = 'GET', data = null, token = '', headers = {}) => {
       try {
         setIsLoading(true);
-        const responseData = await axios(url, method, data, headers);
+        const config = {
+          method,
+          data,
+          headers: {
+            ...headers,
+            Authorization: `Bearer ${token}`
+          }
+        };
+        const responseData = await axios(url, config);
         return responseData;
       } catch (error) {
-        setError(error.message);
+        const errorMessage =
+          error.response && error.response.data.errors
+            ? error.response.data.errors
+            : error.message;
+        setError(errorMessage);
         throw error;
       } finally {
         setIsLoading(false);
@@ -22,7 +34,7 @@ const useHttpClient = () => {
   );
 
   const clearError = () => {
-    setError(error.message);
+    setError(null);
   };
 
   return { isLoading, error, sendRequest, clearError };
