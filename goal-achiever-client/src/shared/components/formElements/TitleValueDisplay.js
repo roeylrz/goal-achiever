@@ -6,7 +6,7 @@ const TitleValueDisplay = ({ title, value }) => {
     <div className={classes.TitleValueDisplay}>
       <label className={classes.TitleValueDisplay_title}>{title}</label>
       <label className={classes.TitleValueDisplay_value}>
-        {(value && value) || 'N/A'}
+        {value || value === 0 ? value : 'N/A'}
       </label>
     </div>
   );
