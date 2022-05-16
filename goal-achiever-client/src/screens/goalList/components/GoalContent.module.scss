@@ -1,0 +1,13 @@
+@import 'stylesheets/main.scss';
+
+.GoalContent {
+  &_status {
+    position: absolute;
+    top: 0;
+    right: $standart-spacing;
+    color: $color-danger;
+    &___completed {
+      color: $color-ok;
+    }
+  }
+}
