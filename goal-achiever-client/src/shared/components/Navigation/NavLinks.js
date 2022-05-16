@@ -11,7 +11,11 @@ const NavLinkItem = ({ to, caption }) => (
 );
 
 const NavLinks = () => {
-  return <ul className="nav-links"></ul>;
+  return (
+    <ul className="nav-links">
+      <NavLinkItem to={routesConsts.HOME} caption="Home" />
+    </ul>
+  );
 };
 
 export default NavLinks;
