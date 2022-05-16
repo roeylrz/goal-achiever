@@ -19,7 +19,10 @@ const App = () => {
         <Routes>
           <Route path={routesConsts.HOME} element={<Home />} exact />
           <Route path={routesConsts.GOAL_LIST} element={<GoalList />} exact />
-          <Route path={routesConsts.GOAL_DETAILS} element={<GoalDetails />} />
+          <Route
+            path={`${routesConsts.GOAL_DETAILS}:goalid`}
+            element={<GoalDetails />}
+          />
           <Route
             path="*"
             element={<Navigate replace to={routesConsts.HOME} />}
