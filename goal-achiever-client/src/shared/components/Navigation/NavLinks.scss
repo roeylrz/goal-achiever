@@ -1,0 +1,35 @@
+@import 'stylesheets/main.scss';
+.nav-links {
+  text-overflow: clip;
+  white-space: pre;
+  overflow: hidden;
+  list-style: none;
+  padding: 10px 0;
+  & li {
+    & > span {
+      display: block;
+      background-color: rgba(0, 0, 0, 0.1);
+      height: 1px;
+    }
+    & a,
+    & .wrapper {
+      display: block;
+      padding: 1rem 24px;
+      color: $color-main;
+      text-decoration: none;
+      font: inherit;
+      &:hover,
+      &:active,
+      &.active {
+        background: linear-gradient(
+          90deg,
+          $color-main 7px,
+          $color-background-main 7px
+        );
+        & div {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
