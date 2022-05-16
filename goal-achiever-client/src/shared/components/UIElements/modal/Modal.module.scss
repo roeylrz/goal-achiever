@@ -1,0 +1,29 @@
+@import 'stylesheets/main.scss';
+.Modal {
+  z-index: 100;
+  width: 30rem;
+  position: fixed;
+  top: 25vh;
+  left: calc(50% - 20rem);
+  width: 40rem;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 8px;
+  transition: all 0.5s ease;
+  &_hide {
+    transform: translate(0, -30rem);
+  }
+  &_header {
+    width: 100%;
+    padding: 0.5rem;
+    background: $color-danger;
+    color: white;
+  }
+  &_content {
+    width: 100%;
+    padding: 1rem 0.5rem;
+  }
+  &_footer {
+    padding: 1rem 0.5rem;
+  }
+}
