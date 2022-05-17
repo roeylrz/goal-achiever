@@ -1,6 +1,5 @@
 import React from 'react';
 import Input from '../../../../shared/components/formElements/Input';
-import { VALIDATOR_REQUIRE } from '../../../../shared/util/validators';
 import classes from './GoalBasicData.module.scss';
 
 const GoalBasicData = ({ inputHandler, goalData }) => {
@@ -8,25 +7,21 @@ const GoalBasicData = ({ inputHandler, goalData }) => {
     <div className={classes.GoalBasicData}>
       <h3>Goal details</h3>
       <Input
+        required
         id="name"
         element="input"
         type="text"
         label="Title"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid name."
-        onInput={inputHandler}
-        initialValue={goalData.Name}
-        initialValid={true}
+        value={goalData.name}
+        onChange={inputHandler}
       />
       <Input
         element="texterea"
         id="description"
         type="text"
         label="Description"
-        errorText="Please enter last name."
-        initialValid={true}
-        initialValue={goalData.Description}
-        onInput={inputHandler}
+        value={goalData.description}
+        onChange={inputHandler}
       />
 
       <Input
@@ -34,9 +29,16 @@ const GoalBasicData = ({ inputHandler, goalData }) => {
         element="input"
         type="date"
         label="Due Date"
-        initialValid={true}
-        initialValue={goalData.DueDate}
-        onInput={inputHandler}
+        value={goalData.dueDate}
+        onChange={inputHandler}
+      />
+      <Input
+        checked={goalData.Completed}
+        id="completed"
+        element="input"
+        type="checkbox"
+        label="Completed"
+        onClick={inputHandler}
       />
     </div>
   );

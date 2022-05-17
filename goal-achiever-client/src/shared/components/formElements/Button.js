@@ -21,7 +21,7 @@ const Button = ({
   );
   if (to) {
     return (
-      <Link to={to} exact className={className}>
+      <Link to={to} className={className}>
         {children}
       </Link>
     );

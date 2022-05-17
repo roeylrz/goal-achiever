@@ -16,8 +16,7 @@ const goalSchema = new mongoose.Schema({
     index: true
   },
   DueDate: {
-    type: Date,
-    default: null
+    type: Date
   },
   Steps: {
     type: [
