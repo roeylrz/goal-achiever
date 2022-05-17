@@ -4,21 +4,17 @@ import ErrorModal from '../../../shared/components/UIElements/modal/ErrorModal';
 import Footer from '../compoents/Footer';
 import Card from '../../../shared/components/UIElements/card/Card';
 import Input from '../../../shared/components/formElements/Input';
-import {
-  VALIDATOR_REQUIRE,
-  VALIDATOR_MINLENGTH
-} from '../../../shared/util/validators';
 import classes from './Auth.module.scss';
 
 const Auth = () => {
   const {
     error,
-    clearError,
-    formState,
-    inputHandler,
     inLoginMode,
+    isLoginValid,
+    clearError,
     switchLoginMode,
-    authSubmitHandler
+    authSubmitHandler,
+    onChange
   } = useHome();
 
   const loginRequest = `Please ${inLoginMode ? 'login' : 'signup'}`;
@@ -32,9 +28,8 @@ const Auth = () => {
               id="firstname"
               type="text"
               label="First Name"
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText="Please enter first name."
-              onInput={inputHandler}
+              onChange={onChange}
+              required={true}
             />
             <Input
               element="input"
@@ -43,7 +38,7 @@ const Auth = () => {
               label="Last Name"
               errorText="Please enter last name."
               initialValid={true}
-              onInput={inputHandler}
+              onChange={onChange}
             />
           </>
         )}
@@ -52,9 +47,8 @@ const Auth = () => {
           element="input"
           type="text"
           label="Username"
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid title"
-          onInput={inputHandler}
+          onChange={onChange}
+          required={true}
         />
         <Input
           id="password"
@@ -62,13 +56,12 @@ const Auth = () => {
           element="input"
           type="password"
           label="Password"
-          validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
-          errorText="Please enter a valid title"
-          onInput={inputHandler}
+          onChange={onChange}
+          required={true}
         />
       </React.Fragment>
     );
-  }, [inputHandler, inLoginMode]);
+  }, [inLoginMode]);
 
   return (
     <form className={classes.Auth} onSubmit={authSubmitHandler}>
@@ -77,7 +70,7 @@ const Auth = () => {
         headerLarge={loginRequest}
         footer={
           <Footer
-            isValid={formState.isValid}
+            isValid={isLoginValid}
             inLoginMode={inLoginMode}
             switchLoginMode={switchLoginMode}
           />

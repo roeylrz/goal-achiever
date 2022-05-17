@@ -1,81 +1,107 @@
-import { useState, useContext, useCallback } from 'react';
+import { useReducer, useContext, useCallback, useEffect } from 'react';
 import { AuthContext } from '../../../shared/context/auth-context';
-import { useForm } from '../../../shared/hooks/form-hook';
 import useHttpClient from '../../../shared/hooks/http-hook';
+
+const ON_CHANGE = 'onChange';
+const ON_TOGGLE_LONGIN = 'toggleSelectRow';
+const ON_VALID_CHECK = 'onValidCheck';
+
+const initialState = {
+  firstname: '',
+  lastname: '',
+  username: '',
+  password: '',
+  inLoginMode: true,
+  isLoginValid: false
+};
+
+const inputsReducer = (state, action) => {
+  switch (action.type) {
+    case ON_CHANGE:
+      return {
+        ...state,
+        [action.id]: action.value
+      };
+    case ON_TOGGLE_LONGIN:
+      return {
+        ...state,
+        inLoginMode: action.inLoginMode
+      };
+    case ON_VALID_CHECK:
+      return {
+        ...state,
+        isLoginValid: action.isLoginValid
+      };
+    default:
+      break;
+  }
+};
 
 const useHome = () => {
   const auth = useContext(AuthContext);
   const { error, sendRequest, clearError } = useHttpClient();
-  const [inLoginMode, setInLoginMode] = useState(true);
-  const [formState, inputHandler, setFormData] = useForm(
-    {
-      username: {
-        value: '',
-        isValid: false
-      },
-      password: {
-        value: '',
-        isValid: false
-      }
-    },
-    false
+  const [standbyState, dispatchStandbyState] = useReducer(
+    inputsReducer,
+    initialState
   );
+
+  useEffect(() => {
+    const isLoginValid =
+      standbyState.username &&
+      standbyState.password.length >= 6 &&
+      (standbyState.inLoginMode || standbyState.firstname);
+
+    dispatchStandbyState({
+      type: ON_VALID_CHECK,
+      isLoginValid: isLoginValid
+    });
+  }, [
+    standbyState.username,
+    standbyState.password,
+    standbyState.inLoginMode,
+    standbyState.firstname
+  ]);
 
   const authSubmitHandler = useCallback(
     async (event) => {
       event.preventDefault();
       let url = '/users/login';
       const paylaod = {
-        UserName: formState.inputs.username.value,
-        Password: formState.inputs.password.value
+        UserName: standbyState.username,
+        Password: standbyState.password
       };
-      if (!inLoginMode) {
-        paylaod.FirstName = formState.inputs.firstname.value;
-        paylaod.LastName = formState.inputs.lastname.value;
+      if (!standbyState.inLoginMode) {
+        paylaod.FirstName = standbyState.firstname;
+        paylaod.LastName = standbyState.lastname;
         url = '/users/signup';
       }
       const response = await sendRequest(url, 'POST', paylaod);
       const { FirstName, LastName, token, userId } = response.data;
       auth.login(userId, token, FirstName, LastName);
     },
-    [formState, sendRequest, auth, inLoginMode]
+    [standbyState, sendRequest, auth]
   );
 
   const switchLoginMode = () => {
-    if (!inLoginMode) {
-      setFormData(
-        {
-          ...formState.inputs,
-          firstname: '',
-          lastname: ''
-        },
-        formState.inputs.username.isValid && formState.inputs.password.isValid
-      );
-    } else {
-      setFormData(
-        {
-          ...formState.inputs,
-          firstname: {
-            value: '',
-            isValid: false
-          },
-          lastname: {
-            value: '',
-            isValid: true
-          }
-        },
-        false
-      );
-    }
-    setInLoginMode((prevMode) => !prevMode);
+    dispatchStandbyState({
+      type: ON_TOGGLE_LONGIN,
+      inLoginMode: !standbyState.inLoginMode
+    });
+  };
+
+  const onChange = (event) => {
+    dispatchStandbyState({
+      type: ON_CHANGE,
+      id: event.target.id,
+      value: event.target.value
+    });
   };
 
   return {
+    inLoginMode: standbyState.inLoginMode,
+    isLoginValid: standbyState.isLoginValid,
     error,
-    formState,
-    inputHandler,
-    inLoginMode,
-    setInLoginMode,
+    onChange,
     authSubmitHandler,
     switchLoginMode,
     clearError
