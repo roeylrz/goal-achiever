@@ -5,6 +5,7 @@ import StepsData from '../components/stepsData/StepsData';
 import ErrorModal from '../../../shared/components/UIElements/modal/ErrorModal';
 import Card from '../../../shared/components/UIElements/card/Card';
 import Devider from '../../../shared/components/UIElements/deviders/Devider';
+import Footer from '../components/footer/Footer';
 import classes from './GoalDetails.module.scss';
 
 const GoalDetails = () => {
@@ -15,6 +16,7 @@ const GoalDetails = () => {
     onUpdateNewStep,
     clearError,
     onGoalDataChange,
+    onStepDataChange,
     onCancelNewStep,
     createStep,
     completeAllSteps
@@ -31,7 +33,7 @@ const GoalDetails = () => {
         newStepInputHandler={onUpdateNewStep}
         createStepEnabled={createStepEnabled}
         steps={goalData.steps}
-        inputHandler={onGoalDataChange}
+        inputHandler={onStepDataChange}
         onCancelNewStep={onCancelNewStep}
       />
     </div>
@@ -39,7 +41,7 @@ const GoalDetails = () => {
   return (
     <form className={classes.GoalDetails}>
       <ErrorModal error={error} onClear={clearError} />
-      {goalData && <Card footer={null}>{goalDataContent}</Card>}
+      {goalData && <Card footer={<Footer />}>{goalDataContent}</Card>}
     </form>
   );
 };

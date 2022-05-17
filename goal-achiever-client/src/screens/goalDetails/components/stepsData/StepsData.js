@@ -13,9 +13,14 @@ const StepsData = ({
   steps = []
 }) => {
   const stepsData = steps.map(
-    (step) => {
+    (step, stepIndex) => {
       return (
-        <StepData key={step._id} inputHandler={inputHandler} stepData={step} />
+        <StepData
+          stepIndex={stepIndex}
+          key={step._id}
+          inputHandler={inputHandler}
+          stepData={step}
+        />
       );
     },
     [steps, inputHandler]

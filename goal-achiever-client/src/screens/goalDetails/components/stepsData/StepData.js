@@ -2,44 +2,50 @@ import React from 'react';
 import Input from '../../../../shared/components/formElements/Input';
 import classes from './StepData.module.scss';
 
-const StepsData = ({ inputHandler, stepData = {}, isNew = false }) => {
+const StepsData = ({
+  inputHandler,
+  stepData = {},
+  stepIndex,
+  isNew = false
+}) => {
+  const onInputChange = (event) => inputHandler(event, stepIndex);
   return (
     <div className={classes.StepData}>
       <Input
         required
-        id="name"
+        id="Name"
         element="input"
         type="text"
         label="Title"
-        onChange={inputHandler}
+        onChange={onInputChange}
         value={stepData.Name}
       />
       <Input
         element="input"
-        id="description"
+        id="Description"
         type="text"
         label="Description"
         value={stepData.Description}
-        onChange={inputHandler}
+        onChange={onInputChange}
       />
 
       <Input
-        id="duedate"
+        id="Duedate"
         element="input"
         type="date"
         label="Due Date"
         value={stepData.DueDate}
-        onChange={inputHandler}
+        onChange={onInputChange}
       />
       {!isNew && (
         <Input
           checked={stepData.Completed}
-          id="completed"
+          id="Completed"
           element="input"
           type="checkbox"
           label="Completed"
           value={true}
-          onInput={inputHandler}
+          onInput={onInputChange}
         />
       )}
     </div>

@@ -1,5 +1,5 @@
 import { useReducer, useContext, useEffect, useCallback } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../../shared/context/auth-context';
 import useHttpClient from '../../../shared/hooks/http-hook';
 
@@ -36,14 +36,6 @@ const goalDetailsReducer = (state, action) => {
         ...state,
         newStep: action.newStep
       };
-    // case ON_STEPS_UPDATE:
-    //   return {
-    //     ...state,
-    //     {...state.goal,
-    //       steps: action.steps,
-    //     }
-    //     isDirty: true
-    //   };
     case ON_LOAD_DATA:
       return {
         ...state,
@@ -110,11 +102,12 @@ const useGoalDetails = () => {
   };
 
   const onStepDataChange = (event, stepIndex) => {
-    const updatedSteps = [...goalDataState.goal.Steps];
-    updatedSteps[event.target.id] = exructDataFromEvent(event);
+    const updatedSteps = [...goalDataState.goal.steps];
+    updatedSteps[stepIndex][event.target.id] = exructDataFromEvent(event);
+    const updatedGoal = { ...goalDataState.goal, Steps: updatedSteps };
     dispatchGoalDataState({
       type: ON_GOAL_UPDATE,
-      goal: updatedSteps
+      goal: updatedGoal
     });
   };
 
@@ -158,6 +151,7 @@ const useGoalDetails = () => {
     clearError,
     loadData,
     onGoalDataChange,
+    onStepDataChange,
     onCancelNewStep,
     createStep,
     completeAllSteps
