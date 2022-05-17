@@ -1,113 +1,50 @@
-import React, { useReducer, useEffect } from 'react';
-import { validate } from '../../util/validators';
+import React from 'react';
+import moment from 'moment';
 import classes from './Input.module.scss';
-
-const CHANGE = 'change';
-const TOUCH = 'touch';
-const UPDATE_INITIAL_VALUE = 'updateInitialValue';
-
-const inputReducer = (state, action) => {
-  switch (action.type) {
-    case CHANGE:
-      return {
-        ...state,
-        value: action.val,
-        isValid: validate(action.val, action.validators)
-      };
-    case TOUCH: {
-      return {
-        ...state,
-        isTouched: true
-      };
-    }
-    case UPDATE_INITIAL_VALUE: {
-      return {
-        ...state,
-        value: action.val
-      };
-    }
-    default:
-      return state;
-  }
-};
 
 const Input = ({
   id,
   type,
   placeholder,
   label,
-  errorText,
+  value,
   element,
-  initialValid,
-  initialValue,
-  onInput,
-  validators = [],
+  onChange,
+  onClick,
   rows = 3,
-  checked
+  checked,
+  required
 }) => {
-  const [inputState, dispatch] = useReducer(inputReducer, {
-    value: initialValue || '',
-    isTouched: false,
-    isValid: initialValid || false
-  });
-
-  useEffect(() => {
-    if (onInput) {
-      onInput(id, inputState.value, inputState.isValid);
-    }
-  }, [id, onInput, inputState.value, inputState.isValid]);
-
-  useEffect(() => {
-    if (initialValue) {
-      dispatch({
-        type: UPDATE_INITIAL_VALUE,
-        val: initialValue
-      });
-    }
-  }, [initialValue, dispatch]);
-
-  const changeHandler = (event) => {
-    dispatch({
-      type: CHANGE,
-      val: event.target.value,
-      validators: validators
-    });
-  };
-
-  const touchHandler = () => {
-    dispatch({
-      type: TOUCH
-    });
-  };
-
-  const isInputValid = !inputState.isValid && inputState.isTouched;
-
+  let min = 0;
+  let updateValue = value;
+  if (type === 'date') {
+    min = moment(new Date()).format('yyy-MM-DD');
+    if (value) updateValue = moment(value).format('yyy-MM-DD');
+  }
   const selectedElement =
     element === 'input' ? (
       <input
+        onClick={onClick}
         id={id}
         type={type}
-        placeholder={errorText && isInputValid ? errorText : placeholder}
-        onChange={changeHandler}
-        onBlur={touchHandler}
-        value={inputState.value}
+        placeholder={placeholder}
+        onChange={onChange}
+        value={updateValue}
         checked={checked}
+        min={min}
       />
     ) : (
       <textarea
         id={id}
-        placeholder={errorText && isInputValid ? errorText : placeholder}
+        placeholder={placeholder}
         rows={rows}
-        onChange={changeHandler}
-        onBlur={touchHandler}
-        value={inputState.value}
+        onChange={onChange}
+        value={value}
       />
     );
 
   return (
-    <div
-      className={`${classes.Input} ${isInputValid && classes.Input_invalid}`}
-    >
+    <div className={`${classes.Input} ${required && classes.Input_require}`}>
       <label htmlFor={id}>{label}</label>
       {selectedElement}
     </div>
