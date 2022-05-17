@@ -5,7 +5,7 @@
     padding: calc(#{$standart-spacing} + #{$main-header-hight})
       $standart-spacing $standart-spacing $standart-spacing;
     &___loggedin {
-      padding-left: calc(#{$standart-spacing} + #{$drawer-width});
+      padding-left: $drawer-width;
     }
   }
 }

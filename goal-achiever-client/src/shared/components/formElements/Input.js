@@ -4,6 +4,7 @@ import classes from './Input.module.scss';
 
 const CHANGE = 'change';
 const TOUCH = 'touch';
+const UPDATE_INITIAL_VALUE = 'updateInitialValue';
 
 const inputReducer = (state, action) => {
   switch (action.type) {
@@ -17,6 +18,12 @@ const inputReducer = (state, action) => {
       return {
         ...state,
         isTouched: true
+      };
+    }
+    case UPDATE_INITIAL_VALUE: {
+      return {
+        ...state,
+        value: action.val
       };
     }
     default:
@@ -35,7 +42,8 @@ const Input = ({
   initialValue,
   onInput,
   validators = [],
-  rows = 3
+  rows = 3,
+  checked
 }) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: initialValue || '',
@@ -48,6 +56,15 @@ const Input = ({
       onInput(id, inputState.value, inputState.isValid);
     }
   }, [id, onInput, inputState.value, inputState.isValid]);
+
+  useEffect(() => {
+    if (initialValue) {
+      dispatch({
+        type: UPDATE_INITIAL_VALUE,
+        val: initialValue
+      });
+    }
+  }, [initialValue, dispatch]);
 
   const changeHandler = (event) => {
     dispatch({
@@ -70,14 +87,16 @@ const Input = ({
       <input
         id={id}
         type={type}
-        placeholder={placeholder}
+        placeholder={errorText && isInputValid ? errorText : placeholder}
         onChange={changeHandler}
         onBlur={touchHandler}
         value={inputState.value}
+        checked={checked}
       />
     ) : (
       <textarea
         id={id}
+        placeholder={errorText && isInputValid ? errorText : placeholder}
         rows={rows}
         onChange={changeHandler}
         onBlur={touchHandler}
@@ -91,7 +110,6 @@ const Input = ({
     >
       <label htmlFor={id}>{label}</label>
       {selectedElement}
-      {isInputValid && <p>{errorText}</p>}
     </div>
   );
 };

@@ -22,10 +22,6 @@ const useGoalDetails = () => {
       dueDate: {
         value: null,
         isValid: false
-      },
-      steps: {
-        value: [],
-        isValid: false
       }
     },
     false
@@ -40,6 +36,20 @@ const useGoalDetails = () => {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  useEffect(() => {
+    if (formState.inputs.name.value === goalData.Name) {
+      return;
+    }
+    setFormData(
+      {
+        ...formState.inputs,
+        name: { value: goalData.Name, isValid: true }
+      },
+      true
+    );
+    console.log('');
+  }, [goalData, setFormData, formState]);
 
   return { goalData, error, clearError, loadData, formState, inputHandler };
 };

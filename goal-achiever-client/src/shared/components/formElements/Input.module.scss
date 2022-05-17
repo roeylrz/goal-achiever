@@ -1,22 +1,21 @@
 @import 'stylesheets/main.scss';
 
 .Input {
-  margin: 1rem 0;
-  & label,
-  & input,
-  & textarea {
-    display: block;
-  }
+  margin: 1rem;
+  display: flex;
+  align-items: baseline;
+  height: 100%;
   & label {
     font-weight: bold;
-    margin-bottom: 0.5rem;
+    margin: 0.2rem;
+    flex-basis: 35%;
+    text-align: start;
   }
   & input,
   & textarea {
-    width: 100%;
     font: inherit;
     border: 1px solid $color-background-main;
-    padding: 0.15rem 0.25rem;
+    margin: 0.15rem 0.25rem;
     &:focus {
       outline: none;
       border-color: $color-main;

@@ -1,73 +1,30 @@
 import React, { useMemo } from 'react';
 import useGoalDetails from '../hooks/goal-details-hook';
+import GoalBasicData from '../components/goalBasicData/GoalBasicData';
+import StepsData from '../components/stepsData/StepsData';
 import ErrorModal from '../../../shared/components/UIElements/modal/ErrorModal';
 import Card from '../../../shared/components/UIElements/card/Card';
-import Input from '../../../shared/components/formElements/Input';
-import {
-  VALIDATOR_REQUIRE,
-  VALIDATOR_MINLENGTH
-} from '../../../shared/util/validators';
+import Devider from '../../../shared/components/UIElements/deviders/Devider';
 import classes from './GoalDetails.module.scss';
 
 const GoalDetails = () => {
   const { goalData, error, clearError, formState, inputHandler } =
     useGoalDetails();
 
-  const content = useMemo(() => {
+  const goalDataContent = useMemo(() => {
     return (
-      <React.Fragment>
-        <Input
-          element="input"
-          id="name"
-          type="text"
-          label="Name"
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter goal name."
-          onInput={inputHandler}
-        />
-        <Input
-          element="texterea"
-          id="description"
-          type="text"
-          label="Description"
-          errorText="Please enter last name."
-          initialValid={true}
-          onInput={inputHandler}
-        />
-
-        <Input
-          id="duedate"
-          element="input"
-          type="date"
-          label="Due Date"
-          initialValid={true}
-          onInput={inputHandler}
-        />
-        <Input
-          id="password"
-          placeholder="At least 6 digits"
-          element="input"
-          type="password"
-          label="Password"
-          validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
-          errorText="Please enter a valid title"
-          onInput={inputHandler}
-        />
-      </React.Fragment>
+      <div className={classes.GoalDetails_card}>
+        <GoalBasicData goalData={goalData} inputHandler={inputHandler} />
+        <Devider />
+        <StepsData inputHandler={inputHandler} steps={goalData.Steps} />
+      </div>
     );
-  }, [inputHandler]);
+  }, [goalData, inputHandler]);
 
   return (
     <form className={classes.GoalDetails}>
-      {' '}
       <ErrorModal error={error} onClear={clearError} />
-      {goalData && (
-        <div className={classes.GoalDetails_card}>
-          <Card headerLarge={goalData.Name} footer={null}>
-            {content}
-          </Card>
-        </div>
-      )}
+      {goalData && <Card footer={null}>{goalDataContent}</Card>}
     </form>
   );
 };
