@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import useGoalDetails from '../hooks/goal-details-hook';
 import GoalBasicData from '../components/goalBasicData/GoalBasicData';
 import StepsData from '../components/stepsData/StepsData';
@@ -16,7 +16,8 @@ const GoalDetails = () => {
     clearError,
     onGoalDataChange,
     onCancelNewStep,
-    createStep
+    createStep,
+    completeAllSteps
   } = useGoalDetails();
 
   const goalDataContent = (
@@ -24,6 +25,8 @@ const GoalDetails = () => {
       <GoalBasicData goalData={goalData} inputHandler={onGoalDataChange} />
       <Devider />
       <StepsData
+        completeAllSteps={completeAllSteps}
+        goalCompleted={goalData.completed}
         createStep={createStep}
         newStepInputHandler={onUpdateNewStep}
         createStepEnabled={createStepEnabled}

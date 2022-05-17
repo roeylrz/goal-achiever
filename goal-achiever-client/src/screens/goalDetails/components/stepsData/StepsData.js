@@ -1,6 +1,6 @@
 import React from 'react';
 import StepData from './StepData';
-import CreateStep from './CreateStep';
+import StepActions from './StepActions';
 
 const StepsData = ({
   inputHandler,
@@ -8,6 +8,8 @@ const StepsData = ({
   createStepEnabled,
   onCancelNewStep,
   createStep,
+  goalCompleted,
+  completeAllSteps,
   steps = []
 }) => {
   const stepsData = steps.map(
@@ -22,7 +24,9 @@ const StepsData = ({
     <div>
       <h3>Steps</h3>
       {stepsData}
-      <CreateStep
+      <StepActions
+        completeAllSteps={completeAllSteps}
+        goalCompleted={goalCompleted}
         createStepHandler={createStep}
         newStepInputHandler={newStepInputHandler}
         createStepEnabled={createStepEnabled}

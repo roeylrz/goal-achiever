@@ -1,19 +1,21 @@
 import React, { useState, useMemo } from 'react';
 import Button from '../../../../shared/components/formElements/Button';
 import StepData from './StepData';
-import classes from './CreateStep.module.scss';
+import classes from './StepActions.module.scss';
 
-const CreateStep = ({
+const StepActions = ({
   createStepHandler,
   onCancelNewStep,
   newStepInputHandler,
-  createStepEnabled
+  createStepEnabled,
+  completeAllSteps,
+  goalCompleted
 }) => {
   const [isEditingNewStep, setIsEditingNewStep] = useState(false);
 
   const editDisplay = useMemo(() => {
     return (
-      <div className={classes.CreateStep}>
+      <div className={classes.StepActions}>
         {isEditingNewStep ? (
           <>
             <StepData isNew={true} inputHandler={newStepInputHandler} />
@@ -36,14 +38,25 @@ const CreateStep = ({
             </Button>
           </>
         ) : (
-          <Button onClick={() => setIsEditingNewStep(true)}>
-            Add new step
-          </Button>
+          <>
+            <Button onClick={() => setIsEditingNewStep(true)}>
+              Add new step
+            </Button>
+            <Button disabled={goalCompleted} main onClick={completeAllSteps}>
+              Complete all steps
+            </Button>
+          </>
         )}
       </div>
     );
-  }, [isEditingNewStep, newStepInputHandler, createStepEnabled]);
+  }, [
+    isEditingNewStep,
+    newStepInputHandler,
+    createStepEnabled,
+    createStepHandler,
+    onCancelNewStep
+  ]);
   return editDisplay;
 };
 
-export default CreateStep;
+export default StepActions;

@@ -72,11 +72,12 @@ const useGoalDetails = () => {
   const loadData = useCallback(async () => {
     const response = await sendRequest(`goals/${goalid}`, 'GET', null, token);
     if (!response.data.goal) return;
-    const { Name, Description, DueDate, Steps } = response.data.goal;
+    const { Name, Description, DueDate, Completed, Steps } = response.data.goal;
     const goal = {
       name: Name,
       description: Description,
       duedate: DueDate ? DueDate : '',
+      completed: Completed,
       steps: Steps
     };
     dispatchGoalDataState({
@@ -138,6 +139,11 @@ const useGoalDetails = () => {
     });
   };
 
+  const completeAllSteps = async () => {
+    await sendRequest(`goals/setcomplete/${goalid}`, 'PATCH', null, token);
+    await loadData();
+  };
+
   const createStepEnabled = goalDataState.newStep.name;
 
   useEffect(() => {
@@ -153,7 +159,8 @@ const useGoalDetails = () => {
     loadData,
     onGoalDataChange,
     onCancelNewStep,
-    createStep
+    createStep,
+    completeAllSteps
   };
 };
 

@@ -32,14 +32,6 @@ const GoalBasicData = ({ inputHandler, goalData }) => {
         value={goalData.dueDate}
         onChange={inputHandler}
       />
-      <Input
-        checked={goalData.Completed}
-        id="completed"
-        element="input"
-        type="checkbox"
-        label="Completed"
-        onClick={inputHandler}
-      />
     </div>
   );
 };
