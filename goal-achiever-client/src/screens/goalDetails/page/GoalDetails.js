@@ -8,19 +8,31 @@ import Devider from '../../../shared/components/UIElements/deviders/Devider';
 import classes from './GoalDetails.module.scss';
 
 const GoalDetails = () => {
-  const { goalData, error, clearError, formState, inputHandler } =
-    useGoalDetails();
+  const {
+    goalData,
+    error,
+    createStepEnabled,
+    onUpdateNewStep,
+    clearError,
+    onGoalDataChange,
+    onCancelNewStep,
+    createStep
+  } = useGoalDetails();
 
-  const goalDataContent = useMemo(() => {
-    return (
-      <div className={classes.GoalDetails_card}>
-        <GoalBasicData goalData={goalData} inputHandler={inputHandler} />
-        <Devider />
-        <StepsData inputHandler={inputHandler} steps={goalData.Steps} />
-      </div>
-    );
-  }, [goalData, inputHandler]);
-
+  const goalDataContent = (
+    <div className={classes.GoalDetails_card}>
+      <GoalBasicData goalData={goalData} inputHandler={onGoalDataChange} />
+      <Devider />
+      <StepsData
+        createStep={createStep}
+        newStepInputHandler={onUpdateNewStep}
+        createStepEnabled={createStepEnabled}
+        steps={goalData.steps}
+        inputHandler={onGoalDataChange}
+        onCancelNewStep={onCancelNewStep}
+      />
+    </div>
+  );
   return (
     <form className={classes.GoalDetails}>
       <ErrorModal error={error} onClear={clearError} />

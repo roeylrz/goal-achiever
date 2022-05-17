@@ -2,10 +2,49 @@ import mongoose from 'mongoose';
 import { Goal } from '../models';
 import { HttpError } from '../shared/errors';
 
+const getEntireGoalDataProject = {
+  _id: 1,
+  Name: 1,
+  Description: 1,
+  Owner: 1,
+  DueDate: 1,
+  Steps: 1,
+  Completed: {
+    $and: [
+      {
+        $gt: [{ $size: '$Steps' }, 0]
+      },
+      {
+        $eq: [
+          {
+            $size: {
+              $filter: {
+                input: '$Steps',
+                as: 'step',
+                cond: { $eq: ['$$step.Completed', false] }
+              }
+            }
+          },
+          0
+        ]
+      }
+    ]
+  }
+};
+
 export const getGoalById = async (req, res) => {
   const goalid = req.params.goalid;
-  const goal = await Goal.findById(goalid);
-  res.send({ goal });
+  const goal = await Goal.aggregate([
+    {
+      $match: {
+        _id: mongoose.Types.ObjectId(goalid)
+      }
+    },
+    {
+      $project: getEntireGoalDataProject
+    }
+  ]);
+  res.send({ goal: goal[0] });
 };
 
 export const getGoalsByOwner = async (req, res) => {
@@ -17,35 +56,7 @@ export const getGoalsByOwner = async (req, res) => {
       }
     },
     {
-      $project: {
-        _id: 1,
-        Name: 1,
-        Description: 1,
-        Owner: 1,
-        DueDate: 1,
-        Steps: 1,
-        Completed: {
-          $and: [
-            {
-              $gt: [{ $size: '$Steps' }, 0]
-            },
-            {
-              $eq: [
-                {
-                  $size: {
-                    $filter: {
-                      input: '$Steps',
-                      as: 'step',
-                      cond: { $eq: ['$$step.Completed', false] }
-                    }
-                  }
-                },
-                0
-              ]
-            }
-          ]
-        }
-      }
+      $project: getEntireGoalDataProject
     }
   ]);
 

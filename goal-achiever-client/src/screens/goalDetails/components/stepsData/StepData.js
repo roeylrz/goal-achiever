@@ -1,31 +1,26 @@
 import React from 'react';
 import Input from '../../../../shared/components/formElements/Input';
-import { VALIDATOR_REQUIRE } from '../../../../shared/util/validators';
 import classes from './StepData.module.scss';
 
-const StepsData = ({ inputHandler, stepData }) => {
+const StepsData = ({ inputHandler, stepData = {}, isNew = false }) => {
   return (
     <div className={classes.StepData}>
       <Input
+        required
         id="name"
         element="input"
         type="text"
         label="Title"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter a valid name."
-        onInput={inputHandler}
-        initialValue={stepData.Name}
-        initialValid={true}
+        onChange={inputHandler}
+        value={stepData.Name}
       />
       <Input
         element="input"
         id="description"
         type="text"
         label="Description"
-        errorText="Please enter last name."
-        initialValid={true}
-        initialValue={stepData.Description}
-        onInput={inputHandler}
+        value={stepData.Description}
+        onChange={inputHandler}
       />
 
       <Input
@@ -33,20 +28,20 @@ const StepsData = ({ inputHandler, stepData }) => {
         element="input"
         type="date"
         label="Due Date"
-        initialValid={true}
-        initialValue={stepData.DueDate}
-        onInput={inputHandler}
+        value={stepData.DueDate}
+        onChange={inputHandler}
       />
-      <Input
-        checked={stepData.Completed}
-        id="duedate"
-        element="input"
-        type="checkbox"
-        label="Completed"
-        initialValid={true}
-        initialValue={true}
-        onInput={inputHandler}
-      />
+      {!isNew && (
+        <Input
+          checked={stepData.Completed}
+          id="completed"
+          element="input"
+          type="checkbox"
+          label="Completed"
+          value={true}
+          onInput={inputHandler}
+        />
+      )}
     </div>
   );
 };
