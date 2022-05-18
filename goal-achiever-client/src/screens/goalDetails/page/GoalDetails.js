@@ -13,13 +13,16 @@ const GoalDetails = () => {
     goalData,
     error,
     createStepEnabled,
+    isSavingAllowed,
     onUpdateNewStep,
     clearError,
     onGoalDataChange,
     onStepDataChange,
     onCancelNewStep,
     createStep,
-    completeAllSteps
+    completeAllSteps,
+    onCancel,
+    onSave
   } = useGoalDetails();
 
   const goalDataContent = (
@@ -39,10 +42,22 @@ const GoalDetails = () => {
     </div>
   );
   return (
-    <form className={classes.GoalDetails}>
+    <div className={classes.GoalDetails}>
       <ErrorModal error={error} onClear={clearError} />
-      {goalData && <Card footer={<Footer />}>{goalDataContent}</Card>}
-    </form>
+      {goalData && (
+        <Card
+          footer={
+            <Footer
+              onCancel={onCancel}
+              onSubmit={onSave}
+              isSavingAllowed={isSavingAllowed}
+            />
+          }
+        >
+          {goalDataContent}
+        </Card>
+      )}
+    </div>
   );
 };
 

@@ -30,7 +30,7 @@ const StepsData = ({
       />
 
       <Input
-        id="Duedate"
+        id="DueDate"
         element="input"
         type="date"
         label="Due Date"
@@ -45,7 +45,7 @@ const StepsData = ({
           type="checkbox"
           label="Completed"
           value={true}
-          onInput={onInputChange}
+          onClick={onInputChange}
         />
       )}
     </div>

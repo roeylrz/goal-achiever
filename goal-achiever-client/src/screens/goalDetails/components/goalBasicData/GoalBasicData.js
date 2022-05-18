@@ -23,13 +23,12 @@ const GoalBasicData = ({ inputHandler, goalData }) => {
         value={goalData.description}
         onChange={inputHandler}
       />
-
       <Input
         id="duedate"
         element="input"
         type="date"
         label="Due Date"
-        value={goalData.dueDate}
+        value={goalData.duedate}
         onChange={inputHandler}
       />
     </div>
