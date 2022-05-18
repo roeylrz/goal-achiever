@@ -26,7 +26,7 @@ const StepActions = ({
                 setIsEditingNewStep(false);
               }}
             >
-              Save
+              Add
             </Button>
             <Button
               onClick={() => {
