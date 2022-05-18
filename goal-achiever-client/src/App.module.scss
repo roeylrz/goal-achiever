@@ -2,8 +2,8 @@
 .App {
   color: $color-main;
   &_main {
-    padding: calc(#{$standart-spacing} + #{$main-header-hight})
-      $standart-spacing $standart-spacing $standart-spacing;
+    margin: 0 32px;
+    padding-top: calc(#{$standart-spacing} + #{$main-header-hight});
     &___loggedin {
       padding-left: $drawer-width;
     }

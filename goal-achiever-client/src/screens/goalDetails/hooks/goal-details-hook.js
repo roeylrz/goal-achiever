@@ -63,6 +63,7 @@ const useGoalDetails = () => {
 
   const { token } = auth;
   const loadData = useCallback(async () => {
+    if (!goalid) return;
     const response = await sendRequest(`goals/${goalid}`, 'GET', null, token);
     if (!response.data.goal) return;
     const { Name, Description, DueDate, Completed, Steps } = response.data.goal;
@@ -166,7 +167,11 @@ const useGoalDetails = () => {
       DueDate: goalDataState.goal.duedate,
       Steps: goalDataState.goal.steps
     };
-    await sendRequest(`goals/update/${goalid}`, 'PATCH', payload, token);
+    if (goalid) {
+      await sendRequest(`goals/update/${goalid}`, 'PATCH', payload, token);
+    } else {
+      await sendRequest(`goals/create`, 'POST', payload, token);
+    }
     navigate(-1);
   }, [token, goalid, goalDataState, sendRequest, navigate]);
 

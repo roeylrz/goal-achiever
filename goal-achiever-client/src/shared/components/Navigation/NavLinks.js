@@ -15,6 +15,7 @@ const NavLinks = () => {
     <ul className="nav-links">
       <NavLinkItem to={routesConsts.HOME} caption="Home" />
       <NavLinkItem to={routesConsts.GOAL_LIST} caption={'Goal List'} />
+      <NavLinkItem to={routesConsts.GOAL_DETAILS} caption={'Create Goal'} />
     </ul>
   );
 };

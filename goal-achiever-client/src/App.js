@@ -20,6 +20,11 @@ const App = () => {
           <Route path={routesConsts.HOME} element={<Home />} exact />
           <Route path={routesConsts.GOAL_LIST} element={<GoalList />} exact />
           <Route
+            path={routesConsts.GOAL_DETAILS}
+            exact
+            element={<GoalDetails />}
+          />
+          <Route
             path={`${routesConsts.GOAL_DETAILS}:goalid`}
             element={<GoalDetails />}
           />

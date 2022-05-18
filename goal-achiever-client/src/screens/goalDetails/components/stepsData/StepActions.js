@@ -54,7 +54,9 @@ const StepActions = ({
     newStepInputHandler,
     createStepEnabled,
     createStepHandler,
-    onCancelNewStep
+    onCancelNewStep,
+    completeAllSteps,
+    goalCompleted
   ]);
   return editDisplay;
 };

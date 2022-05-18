@@ -61,7 +61,7 @@ const Auth = () => {
         />
       </React.Fragment>
     );
-  }, [inLoginMode]);
+  }, [inLoginMode, onChange]);
 
   return (
     <form className={classes.Auth} onSubmit={authSubmitHandler}>

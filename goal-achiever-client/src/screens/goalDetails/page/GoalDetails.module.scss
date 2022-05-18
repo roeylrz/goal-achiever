@@ -4,7 +4,7 @@
   width: calc(100% - #{$standart-spacing});
   &_card {
     text-align: start;
-    height: 100%;
+    min-height: calc(77vh - #{$standart-spacing} - #{$main-header-hight});
     display: flex;
     & > *:first-child {
       flex-basis: 30%;

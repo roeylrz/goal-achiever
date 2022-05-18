@@ -19,6 +19,7 @@ const Home = () => {
           content: <StepsContent nextStep={goal.Steps[0]} />,
           footer: (
             <Footer
+              goalId={goal._id}
               completeStepHandler={() => completeStep(goal.Steps[0]._id)}
             />
           )
