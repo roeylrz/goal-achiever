@@ -82,13 +82,25 @@ const useGoalDetails = () => {
 
   const createStep = useCallback(async () => {
     const newStepData = {
-      GoalId: goalid,
       Name: goalDataState.newStep.name,
       Description: goalDataState.newStep.description,
       DueDate: new Date(goalDataState.newStep.duedate)
     };
-    await sendRequest(`goalSteps/create`, 'PUT', newStepData, token);
-    await loadData();
+    if (goalid) {
+      //I did this option only to use create steps API...
+      newStepData.GoalId = goalid;
+      await sendRequest(`goalSteps/create`, 'PUT', newStepData, token);
+      await loadData();
+    } else {
+      const updatedSteps = [...goalDataState.goal.steps];
+      updatedSteps.push(newStepData);
+      const updatedGoal = { ...goalDataState.goal, steps: updatedSteps };
+      dispatchGoalDataState({
+        type: ON_GOAL_UPDATE,
+        goal: updatedGoal,
+        isSavingAllowed: isSaveAllowed(updatedGoal)
+      });
+    }
   }, [goalid, token, goalDataState, sendRequest, loadData]);
 
   const exructDataFromEvent = (event) =>
@@ -131,7 +143,7 @@ const useGoalDetails = () => {
 
   const onUpdateNewStep = (event) => {
     const updatedNewStep = { ...goalDataState.newStep };
-    updatedNewStep[event.target.id] = exructDataFromEvent(event);
+    updatedNewStep[event.target.id.toLowerCase()] = exructDataFromEvent(event);
     dispatchGoalDataState({
       type: ON_NEW_STEP_UPDATE,
       newStep: updatedNewStep
